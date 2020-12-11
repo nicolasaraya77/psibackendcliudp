@@ -1,13 +1,8 @@
-const { Usuario } = require("../models/index");
+const { Usuario, Role } = require("../models/index");
 
 module.exports = {
   async find(req, res, next) {
-    let user = await Usuario.findByPk(req.params.id, {
-      include: {
-        association: "rol",
-        attributes: ["nombre"],
-      },
-    })
+    await Usuario.findByPk(req.params.id)
       .then((user) => {
         req.user = user;
         next();
@@ -16,6 +11,10 @@ module.exports = {
         res.status(404).json({ msg: "Usuario no encontrado" });
       });
   },
+
+  //async findUserByRol(req,res,next) {
+  //await
+  //}
 
   async index(req, res) {
     let users = await Usuario.findAll({
@@ -38,29 +37,16 @@ module.exports = {
   },
 
   // Update
+
   async update(req, res) {
-    console.log(req.user.rol.nombre);
-    let usuario = await req.user
-      .update(
-        { nombre: req.body.rol },
-        {
-          where: {
-            rol: {
-              nombre,
-            },
-          },
-        }
-      )
-      .then((user) => {
-        res.json(user);
-      });
+    if (!req.user) {
+      req.status(404).json({ msg: "Error" });
+    }
+    await Role.update(
+      { nombre: req.body.role },
+      { where: { userId: req.user.id } }
+    );
+
+    res.json({ msg: "rol actualizado con exito" });
   },
-  /*
-  // Delete
-  async delete(req, res) {
-    req.post.destroy().then((post) => {
-      res.json({ msg: "El post ha sido eliminado " });
-    });
-  },
-  */
 };

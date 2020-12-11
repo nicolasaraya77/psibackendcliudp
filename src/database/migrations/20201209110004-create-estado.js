@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      pacienteId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Pacientes",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+      },
       nombre: {
         allowNull: false,
         type: Sequelize.STRING,
