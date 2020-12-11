@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(require("./routes"));
 
 app.listen(PORT, HOST, function () {
-  sequelize.authenticate().then(() => {
+  sequelize.sync().then(() => {
     console.log("Nos hemos conectado a la base de datos!!!!!");
   });
 });
