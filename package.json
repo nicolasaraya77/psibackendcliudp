@@ -17,7 +17,8 @@
     "sequelize": "^6.3.5"
   },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node ./src/index.js"
   },
   "devDependencies": {
     "faker": "^5.1.0",

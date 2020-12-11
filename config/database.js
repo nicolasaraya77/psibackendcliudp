@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "../variables.env" });
 
 module.exports = {
   // Configuracion de DB
@@ -7,6 +7,13 @@ module.exports = {
   database: process.env.DB_DATABASE || "psicliudp",
   host: process.env.DB_HOST || "127.0.0.1",
   dialect: process.env.DB_DIALECT || "mysql",
+  port: process.env.DB_DIALECT || 3306,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
 
   // Configurar Seeds
   seederStorage: "sequelize",
