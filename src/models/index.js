@@ -6,6 +6,7 @@ const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const config = require("../../config/database");
 const db = {};
+
 // Creamos nuestra conexión
 let sequelize = new Sequelize(
   config.database,
@@ -26,7 +27,6 @@ fs.readdirSync(__dirname)
       sequelize,
       Sequelize.DataTypes
     );
-
     db[model.name] = model;
   });
 

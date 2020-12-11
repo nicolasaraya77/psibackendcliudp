@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Roles", {
+    await queryInterface.createTable("Logs", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,8 +16,19 @@ module.exports = {
         },
         onDelete: "CASCADE",
       },
-      nombre: {
-        allowNull: false,
+      derivacion_id: {
+        type: Sequelize.INTEGER,
+      },
+      entidad: {
+        type: Sequelize.STRING,
+      },
+      atributo: {
+        type: Sequelize.STRING,
+      },
+      valor_antes: {
+        type: Sequelize.STRING,
+      },
+      valor_despues: {
         type: Sequelize.STRING,
       },
       createdAt: {
@@ -31,6 +42,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Roles");
+    await queryInterface.dropTable("Logs");
   },
 };

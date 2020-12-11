@@ -3,8 +3,13 @@ const router = express.Router();
 
 //controladores
 const Auth = require("../controllers/Auth");
+const UserController = require("../controllers/User");
+const RoleController = require("../controllers/Roles");
 
-//home
+// Middlewares
+const auth = require("../middlewares/auth");
+
+//home para probar que funciona el server
 router.get("/", (req, res) => {
   res.json({ msg: "hola" });
 });
@@ -12,4 +17,17 @@ router.get("/", (req, res) => {
 //login registro
 router.post("/login", Auth.signIn);
 router.post("/signup", Auth.signUp);
+
+//usuarios
+router.get("/usuario", [auth.ensureAuth], UserController.index);
+router.put(
+  "/usuario/:id",
+  [auth.ensureAuth],
+  UserController.find,
+  UserController.update
+);
+
+//roles
+router.get("/roles", [auth.ensureAuth], RoleController.index);
+
 module.exports = router;

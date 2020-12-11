@@ -17,14 +17,21 @@ module.exports = {
           res.status(404).json({ msg: "usuario no encontrado" });
         } else {
           if (bcrypt.compareSync(password, user.password)) {
-            //devolver token
-            let token = jwt.sign({ user: user }, authConfig.secret, {
+            console.log(user);
+
+            const body = {
+              id: user.id,
+              email: user.email,
+              password: user.password,
+            };
+            let token = jwt.sign({ user: body }, authConfig.secret, {
               expiresIn: authConfig.expires,
             });
 
             res.json({
               user: user,
               token: token,
+              message: "Inicio de sesión exitoso",
             });
           } else {
             //acceso no autorizado
@@ -33,7 +40,7 @@ module.exports = {
         }
       })
       .catch((err) => {
-        res.status(500).json(err);
+        res.status(500).json({ msg: err });
       });
   },
   //registro
@@ -45,6 +52,7 @@ module.exports = {
       req.body.password,
       Number.parseInt(authConfig.rounds)
     );
+
     //crear usuario
     Usuario.create({
       nombre: nombre,
@@ -61,10 +69,12 @@ module.exports = {
         res.json({
           user: user,
           token: token,
+          message: "registro exitoso",
         });
       })
       .catch((err) => {
-        res.status(500).json(err);
+        res.status(500).json({ msg: err });
+        console.log(err);
       });
   },
 };
